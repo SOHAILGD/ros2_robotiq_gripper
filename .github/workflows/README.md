@@ -23,7 +23,7 @@ Two knobs, not one ladder.
 
 **Which apt repo the debs come from:** `main` (what users install today) or `testing` (staged for the next sync).
 
-Both `.repos` files carry `serial`, because [wjwwood/serial was never released to ROS 2](https://github.com/PickNikRobotics/ros2_robotiq_gripper/issues/21) — there is no rosdep key, so it has to be a source checkout even in the binary tier. That is also why `robotiq_driver` is not in the released package set; only `robotiq_controllers` and `robotiq_description` are bloomed.
+Both `.repos` files carry `serial`, because [wjwwood/serial was never ported to ROS 2](https://github.com/PickNikRobotics/ros2_robotiq_gripper/issues/21) — there is no rosdep key, so it has to be a source checkout even in the binary tier. That is also why `robotiq_driver` is not in the released package set; only `robotiq_controllers` and `robotiq_description` are released as debs.
 
 ## Matrix
 
