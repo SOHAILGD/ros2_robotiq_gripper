@@ -21,7 +21,27 @@ find_package(hardware_interface REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
-find_package(serial REQUIRED)
+
+# Prefer an installed serial package. For standalone configuration, fall back
+# to the normal Git checkout vendored beside this package.
+find_package(serial QUIET)
+if(NOT serial_FOUND)
+  set(_SERIAL_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../serial")
+  if(NOT EXISTS "${_SERIAL_SOURCE_DIR}/CMakeLists.txt")
+    message(FATAL_ERROR
+      "robotiq_driver: serial was not found. Install the serial package or "
+      "place its ROS 2 source at ${_SERIAL_SOURCE_DIR}.")
+  endif()
+
+  add_subdirectory(
+    "${_SERIAL_SOURCE_DIR}"
+    "${CMAKE_CURRENT_BINARY_DIR}/serial"
+    EXCLUDE_FROM_ALL
+  )
+  if(NOT TARGET serial::serial)
+    add_library(serial::serial ALIAS serial)
+  endif()
+endif()
 
 set(THIS_PACKAGE_INCLUDE_DEPENDS
   ament_cmake
